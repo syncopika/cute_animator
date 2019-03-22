@@ -1,6 +1,6 @@
 #include <QPushButton>
 #include <QBoxLayout>
-#include "framecontroller.h"
+#include "headers/framecontroller.h"
 #include <iostream>
 #include <QLabel>
 #include <QShortcut>

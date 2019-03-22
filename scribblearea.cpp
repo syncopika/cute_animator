@@ -48,8 +48,7 @@
 **
 ****************************************************************************/
 
-#include "scribblearea.h"
-
+#include "headers/scribblearea.h"
 #include <QtWidgets>
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>

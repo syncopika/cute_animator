@@ -49,7 +49,7 @@
 ****************************************************************************/
 
 
-#include "borderlayout.h"
+#include "headers/borderlayout.h"
 
 BorderLayout::BorderLayout(QWidget *parent, int margin, int spacing)
     : QLayout(parent)
