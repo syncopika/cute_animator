@@ -55,6 +55,7 @@
 #include <QImage>
 #include <QPoint>
 #include <QWidget>
+#include <QTabletEvent>
 
 //! [0]
 class ScribbleArea : public QWidget
@@ -86,6 +87,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void tabletEvent(QTabletEvent *event) override;
 
 private:
     void drawLineTo(const QPoint &endPoint);
