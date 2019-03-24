@@ -57,6 +57,7 @@
 #include <QPrintDialog>
 #endif
 #endif
+#include <iostream>
 
 //! [0]
 ScribbleArea::ScribbleArea(QWidget *parent)
@@ -139,6 +140,25 @@ void ScribbleArea::mousePressEvent(QMouseEvent *event)
         scribbling = true;
     }
 }
+
+// try registering tablet events
+void ScribbleArea::tabletEvent(QTabletEvent *event)
+{
+    // relevant events:
+    /* QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
+     *
+     */
+
+    if (event->type() != QEvent::TabletLeaveProximity) {
+        if (event->device() == QTabletEvent::Stylus){
+            if(event->type() == QEvent::TabletPress){
+                std::cout << "tablet event triggered!" << std::endl;
+            }
+        }
+    }
+    event->accept();
+}
+
 
 void ScribbleArea::mouseMoveEvent(QMouseEvent *event)
 {

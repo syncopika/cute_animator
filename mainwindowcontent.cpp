@@ -11,7 +11,7 @@
 // https://www.qtcentre.org/threads/65194-Playing-Image-Sequence-using-Qt
 // https://stackoverflow.com/questions/30330881/qt-cpp-delay-in-for-loop - this might be better for animation
 // https://doc.qt.io/qt-5/qtimer.html
-//! [0]
+
 MainWindowContent::MainWindowContent(QWidget *parent)
 : QWidget(parent)
 {
