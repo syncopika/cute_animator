@@ -20,13 +20,17 @@ public:
     ScribbleArea* getCurrFrame();
     QVector<ScribbleArea*> getAllFrames();
 
+signals:
+    void animateSignal(); // this does the actual animating
+
 private slots:
     void addFrame();
     void removeFrame();
     void nextFrame();
     void prevFrame();
     void clearFrame();
-    void doAnimation();
+    void preAnimation(int frameDelay); // update the delay between frames, then animate
+    void animate();
 
 private:
     BorderLayout* layout;
@@ -37,6 +41,7 @@ private:
     Timeline* timeline;
     int counter; // for animation
     bool isAnimating; // for animation
+    int frameDelay; // for animation
 };
 
 

@@ -13,6 +13,8 @@ Timeline::Timeline(QWidget *parent)
     connect(btn, SIGNAL(clicked()), this, SLOT(emitAnimationSignal()));
 
     QLineEdit* editDelay = new QLineEdit(this);
+    btn->setFixedWidth(80);
+    editDelay->setFixedWidth(60);
 
     btn->setText("animate");
     layout->addWidget(btn);
@@ -23,5 +25,6 @@ Timeline::Timeline(QWidget *parent)
 }
 
 void Timeline::emitAnimationSignal(){
-    emit doAnimation();
+    // get int from textbox, which is the time delay between frames.
+    emit doAnimation(500);
 }

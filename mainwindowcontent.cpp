@@ -23,6 +23,7 @@ MainWindowContent::MainWindowContent(QWidget *parent)
     frames.push_back(scribbleArea);
     counter = 0;
     isAnimating = false;
+    frameDelay = 500;
 
     // connect button signals to main window's slots
     connect(frameController, &FrameController::addFrame, this, &MainWindowContent::addFrame);
@@ -32,7 +33,8 @@ MainWindowContent::MainWindowContent(QWidget *parent)
     connect(frameController, &FrameController::clearFrame, this, &MainWindowContent::clearFrame);
 
     // connect the timeline's doAnimation signal to this windowcontent's animation function
-    connect(timeline, &Timeline::doAnimation, this, &MainWindowContent::doAnimation);
+    connect(timeline, &Timeline::doAnimation, this, &MainWindowContent::preAnimation);
+    connect(this, &MainWindowContent::animateSignal, this, &MainWindowContent::animate);
 
     layout = new BorderLayout();
     layout->addWidget(scribbleArea, BorderLayout::Center);
@@ -154,13 +156,30 @@ void MainWindowContent::clearFrame(){
     scribbleArea->clearImage();
 }
 
-void MainWindowContent::doAnimation(){
+void MainWindowContent::preAnimation(int frameDelay){
+    //std::cout << "frame delay: " << frameDelay << std::endl;
+    this->frameDelay = frameDelay;
+    emit animateSignal();
+    /*
     //std::cout << "im supposed to do the animation here" << std::endl;
     if(counter < frameController->getNumFrames()){
         isAnimating = true;
         frameController->setCurrFrame(counter++);
         nextFrame();
-        QTimer::singleShot(500, this, SLOT(doAnimation()));
+        QTimer::singleShot(frameDelay, this, SLOT(doAnimation(frameDelay)));
+    }else{
+        isAnimating = false;
+        counter = 0;
+        return;
+    }*/
+}
+
+void MainWindowContent::animate(){
+    if(counter < frameController->getNumFrames()){
+        isAnimating = true;
+        frameController->setCurrFrame(counter++);
+        nextFrame();
+        QTimer::singleShot(frameDelay, this, SLOT(animate()));
     }else{
         isAnimating = false;
         counter = 0;

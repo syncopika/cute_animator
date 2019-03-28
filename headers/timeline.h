@@ -11,7 +11,7 @@ public:
     Timeline(QWidget *parent = nullptr);
 
 signals:
-    void doAnimation();
+    void doAnimation(int frameDelay);
 
 public slots:
     void emitAnimationSignal();
