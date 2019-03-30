@@ -1,20 +1,17 @@
 #include "headers/timeline.h"
-#include <QHBoxLayout>
-#include <QTimeLine>
-#include <QPushButton>
-#include <QProgressBar>
-#include <QLineEdit>
+#include <QString>
+#include <iostream>
+#include <QTextStream>
 
 Timeline::Timeline(QWidget *parent)
 {
-
-    QHBoxLayout* layout = new QHBoxLayout(this);
-    QPushButton* btn = new QPushButton();
+    layout = new QHBoxLayout(this);
+    btn = new QPushButton();
     connect(btn, SIGNAL(clicked()), this, SLOT(emitAnimationSignal()));
 
-    QLineEdit* editDelay = new QLineEdit(this);
+    editDelay = new QLineEdit(this);
     btn->setFixedWidth(80);
-    editDelay->setFixedWidth(60);
+    editDelay->setFixedWidth(80);
 
     btn->setText("animate");
     layout->addWidget(btn);
@@ -26,5 +23,11 @@ Timeline::Timeline(QWidget *parent)
 
 void Timeline::emitAnimationSignal(){
     // get int from textbox, which is the time delay between frames.
-    emit doAnimation(500);
+    int timeDelay = (editDelay->text()).toInt();
+   // QTextStream out(stdout);
+   //out << editDelay->text() << endl;
+    if(timeDelay <= 0){
+        timeDelay = 500;
+    }
+    emit doAnimation(timeDelay);
 }

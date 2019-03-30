@@ -125,5 +125,26 @@ void FrameController::setCurrFrame(int curr){
 }
 
 
+// try registering tablet events
+// https://stackoverflow.com/questions/36050747/qt-c-how-to-get-event-target-object
+void FrameController::tabletEvent(QTabletEvent *event)
+{
+    /* relevant events:
+     * QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
+     */
 
+    if (event->type() != QEvent::TabletLeaveProximity) {
+        if (event->device() == QTabletEvent::Stylus){
+            switch(event->type()){
+                case QEvent::TabletPress:
+                {
+                    std::cout << "tablet event triggered!" << std::endl;
+                }
+                break;
+                default:
+                    break;
+            }
+        }
+    }
+}
 

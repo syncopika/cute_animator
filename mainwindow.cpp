@@ -138,18 +138,10 @@ void MainWindow::penWidth()
 void MainWindow::about()
 //! [11] //! [12]
 {
-    QMessageBox::about(this, tr("About Scribble"),
-            tr("<p>The <b>Scribble</b> example shows how to use QMainWindow as the "
-               "base widget for an application, and how to reimplement some of "
-               "QWidget's event handlers to receive the events generated for "
-               "the application's widgets:</p><p> We reimplement the mouse event "
-               "handlers to facilitate drawing, the paint event handler to "
-               "update the application and the resize event handler to optimize "
-               "the application's appearance. In addition we reimplement the "
-               "close event handler to intercept the close events before "
-               "terminating the application.</p><p> The example also demonstrates "
-               "how to use QPainter to draw an image in real time, as well as "
-               "to repaint widgets.</p>"));
+    QMessageBox::about(this, tr("About Cute Animator"),
+            tr("<p>An application to help make simple animations or drawings! "
+               " This work is derived from the Qt Scribble example and also makes "
+               " use of the Qt Border Layout example. Have fun! :) </p>"));
 }
 //! [12]
 
@@ -292,15 +284,16 @@ void MainWindow::saveFileAll(const QByteArray &fileFormat)
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
                                initialPath,
-                               tr("%1 Files (*.%2);;All Files (*)")
+                               tr("%1 Files ;;All Files (*)")
                                .arg(QString::fromLatin1(fileFormat.toUpper()))
-                               .arg(QString::fromLatin1(fileFormat)));
+                               );
 
     if (!fileName.isEmpty()) {
         QVector<ScribbleArea*> allFrames = content->getAllFrames();
         for(int i = 0; i < allFrames.size(); i++){
             ScribbleArea* frame = allFrames[i];
-            QString newFileName = fileName + "_" + QString::number(i) + "." + fileFormat;
+            //qDebug(qUtf8Printable(fileName));
+            QString newFileName = fileName + "_" + QString::number(i) + "." + QString::fromLatin1(fileFormat);
             frame->saveImage(newFileName, fileFormat.constData());
         }
     }

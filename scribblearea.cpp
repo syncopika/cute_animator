@@ -131,6 +131,47 @@ void ScribbleArea::clearImage()
 }
 //! [10]
 
+void ScribbleArea::tabletEvent(QTabletEvent *event)
+{
+    /* relevant events:
+     * QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
+     */
+
+    if (event->type() != QEvent::TabletLeaveProximity) {
+        if (event->device() == QTabletEvent::Stylus){
+            switch(event->type()){
+                case QEvent::TabletPress:
+                {
+                    //std::cout << "tablet event triggered!" << std::endl;
+                    lastPoint = event->pos();
+                    myPenWidth = int(event->pressure() * 10);
+                    scribbling = true;
+                }
+                break;
+                case QEvent::TabletMove:
+                {
+                    myPenWidth = int(event->pressure() * 10);
+                    drawLineTo(event->pos());
+                }
+                break;
+                case QEvent::TabletRelease:
+                {
+                    drawLineTo(event->pos());
+                    scribbling = false;
+                }
+                break;
+                default:
+                    break;
+            }
+            /*
+            if(event->type() == QEvent::TabletPress){
+                std::cout << "tablet event triggered!" << std::endl;
+            }*/
+        }
+    }
+    event->accept();
+}
+
 //! [11]
 void ScribbleArea::mousePressEvent(QMouseEvent *event)
 //! [11] //! [12]
@@ -140,25 +181,6 @@ void ScribbleArea::mousePressEvent(QMouseEvent *event)
         scribbling = true;
     }
 }
-
-// try registering tablet events
-void ScribbleArea::tabletEvent(QTabletEvent *event)
-{
-    // relevant events:
-    /* QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
-     *
-     */
-
-    if (event->type() != QEvent::TabletLeaveProximity) {
-        if (event->device() == QTabletEvent::Stylus){
-            if(event->type() == QEvent::TabletPress){
-                std::cout << "tablet event triggered!" << std::endl;
-            }
-        }
-    }
-    event->accept();
-}
-
 
 void ScribbleArea::mouseMoveEvent(QMouseEvent *event)
 {

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QTabletEvent>
 
 class FrameController : public QWidget
 {
@@ -21,6 +22,9 @@ private:
     int currFrame;
     QLabel* currFrameLabel;
     QLabel* totalFramesLabel;
+
+protected:
+    void tabletEvent(QTabletEvent *event) override;
 
 
 signals:

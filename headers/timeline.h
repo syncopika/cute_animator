@@ -1,7 +1,11 @@
 #ifndef TIMELINE_H
 #define TIMELINE_H
 
+#include <QHBoxLayout>
 #include <QWidget>
+#include <QPushButton>
+#include <QProgressBar>
+#include <QLineEdit>
 
 class Timeline : public QWidget
 {
@@ -15,6 +19,11 @@ signals:
 
 public slots:
     void emitAnimationSignal();
+
+private:
+    QHBoxLayout* layout;
+    QPushButton* btn;
+    QLineEdit* editDelay;
 
 };
 

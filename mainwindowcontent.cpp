@@ -157,21 +157,9 @@ void MainWindowContent::clearFrame(){
 }
 
 void MainWindowContent::preAnimation(int frameDelay){
-    //std::cout << "frame delay: " << frameDelay << std::endl;
+    std::cout << "frame delay: " << frameDelay << std::endl;
     this->frameDelay = frameDelay;
     emit animateSignal();
-    /*
-    //std::cout << "im supposed to do the animation here" << std::endl;
-    if(counter < frameController->getNumFrames()){
-        isAnimating = true;
-        frameController->setCurrFrame(counter++);
-        nextFrame();
-        QTimer::singleShot(frameDelay, this, SLOT(doAnimation(frameDelay)));
-    }else{
-        isAnimating = false;
-        counter = 0;
-        return;
-    }*/
 }
 
 void MainWindowContent::animate(){

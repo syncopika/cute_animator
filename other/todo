@@ -2,3 +2,7 @@
 2. set frame rate in timeline.
 3. move color/pen adjust to left side of main window content?
 4. support for tablets!!
+   - basic support done (at least for drawing)
+   - need to make buttons pressable by pen/stylus
+   - add pressure sensitivity (change pen width based on pressure)
+5. toggle opacity level for onion skin?
