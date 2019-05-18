@@ -90,11 +90,30 @@ bool ScribbleArea::openImage(const QString &fileName)
 //! [2]
 
 //! [3]
+// NOTE THAT BMPs don't support alpha channel so instead of getting transparency youll just get black pixels!
+// https://forum.qt.io/topic/86938/alpha-channel-not-written-to-bmp-by-qimage-save/9
 bool ScribbleArea::saveImage(const QString &fileName, const char *fileFormat)
 //! [3] //! [4]
 {
     QImage visibleImage = image;
     resizeImage(&visibleImage, size());
+
+    // get rid of transparency
+    // the issue here is that all the non-colored pixels are black! (this applies to formats that aren't supporting the alpha channel)
+    // however! the setting alpha to 255 definitely works.
+    // https://stackoverflow.com/questions/1549634/qt-qimage-always-saves-transparent-color-as-black
+    for(int i = 0; i < visibleImage.height(); i++){
+        for(int j = 0; j < visibleImage.width(); j++){
+            QColor currColor = visibleImage.pixelColor(j, i);
+            if(currColor.alpha() == 0){
+                // if alpha is 0, then this pixel is supposed to be transparent.
+                // make it white instead
+                // but only if bmp?
+                QColor newColor = Qt::white;
+                visibleImage.setPixelColor(j, i, newColor);
+            }
+        }
+    }
 
     if (visibleImage.save(fileName, fileFormat)) {
         modified = false;

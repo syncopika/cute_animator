@@ -42,6 +42,9 @@ MainWindowContent::MainWindowContent(QWidget *parent)
     layout->addWidget(timeline, BorderLayout::South);
     setLayout(layout);
 
+    // add initial frame to the timeline
+    timeline->addFrameToTimeline(scribbleArea->getImage());
+
 }
 
 

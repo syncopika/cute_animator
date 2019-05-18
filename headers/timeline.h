@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QProgressBar>
 #include <QLineEdit>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 
 class Timeline : public QWidget
 {
@@ -13,6 +15,7 @@ class Timeline : public QWidget
 
 public:
     Timeline(QWidget *parent = nullptr);
+    void addFrameToTimeline(QImage image);
 
 signals:
     void doAnimation(int frameDelay);
@@ -25,6 +28,8 @@ private:
     QPushButton* btn;
     QLineEdit* editDelay;
 
+    QGraphicsView* container;
+    QGraphicsScene* containerScene;
 };
 
 #endif // TIMELINE_H

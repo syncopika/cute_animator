@@ -114,8 +114,9 @@ void MainWindow::penColor()
 {
     scribbleArea = content->getCurrFrame();
     QColor newColor = QColorDialog::getColor(scribbleArea->penColor());
-    if (newColor.isValid())
+    if (newColor.isValid()){
         scribbleArea->setPenColor(newColor);
+    }
 }
 //! [8]
 

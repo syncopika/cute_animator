@@ -6,6 +6,11 @@
 #include <QShortcut>
 #include <QKeySequence>
 
+/*
+ *   provides adding, removing, clearing, and moving between frames functionalities
+ *   need to provide tablet support for activating buttons?
+ */
+
 FrameController::FrameController(QWidget *parent)
 {
     // set private vars
