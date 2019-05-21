@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QTabletEvent>
+#include <QPushButton>
 
 class FrameController : public QWidget
 {
@@ -20,8 +21,16 @@ public:
 private:
     int numFrames;
     int currFrame;
+
     QLabel* currFrameLabel;
     QLabel* totalFramesLabel;
+
+    QPushButton* nextBtn;
+    QPushButton* prevBtn;
+    QPushButton* addBtn;
+    QPushButton* removeBtn;
+    QPushButton* clearBtn;
+
 
 protected:
     void tabletEvent(QTabletEvent *event) override;

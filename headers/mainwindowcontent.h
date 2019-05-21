@@ -39,7 +39,7 @@ private:
     QVector<ScribbleArea*> frames;
     FrameController* frameController;
     Timeline* timeline;
-    int counter; // for animation
+    int animationCounter; // for animation
     bool isAnimating; // for animation
     int frameDelay; // for animation
 };

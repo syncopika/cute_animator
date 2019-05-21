@@ -26,3 +26,5 @@ SOURCES       = main.cpp \
 DISTFILES += \
     other/bugstofix \
     other/todo
+
+RESOURCES +=

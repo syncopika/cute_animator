@@ -21,7 +21,7 @@ MainWindowContent::MainWindowContent(QWidget *parent)
     timeline = new Timeline(this);
     onionLayer = new ScribbleArea(this);
     frames.push_back(scribbleArea);
-    counter = 0;
+    animationCounter = 0;
     isAnimating = false;
     frameDelay = 500;
 
@@ -41,10 +41,6 @@ MainWindowContent::MainWindowContent(QWidget *parent)
     layout->addWidget(frameController, BorderLayout::East);
     layout->addWidget(timeline, BorderLayout::South);
     setLayout(layout);
-
-    // add initial frame to the timeline
-    timeline->addFrameToTimeline(scribbleArea->getImage());
-
 }
 
 
@@ -166,14 +162,14 @@ void MainWindowContent::preAnimation(int frameDelay){
 }
 
 void MainWindowContent::animate(){
-    if(counter < frameController->getNumFrames()){
+    if(animationCounter < frameController->getNumFrames()){
         isAnimating = true;
-        frameController->setCurrFrame(counter++);
+        frameController->setCurrFrame(animationCounter++);
         nextFrame();
         QTimer::singleShot(frameDelay, this, SLOT(animate()));
     }else{
         isAnimating = false;
-        counter = 0;
+        animationCounter = 0;
         return;
     }
 }

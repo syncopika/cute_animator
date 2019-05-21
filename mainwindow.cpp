@@ -55,6 +55,10 @@
 //! [0]
 MainWindow::MainWindow()
 {
+
+    setWindowTitle(tr("Cute Animator"));
+    resize(1000, 850); // height, width
+
     content = new MainWindowContent(this);
     scribbleArea = content->getCurrFrame();
     setCentralWidget(content);
@@ -62,8 +66,9 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
 
-    setWindowTitle(tr("Cute Animator"));
-    resize(1000, 850); // height, width
+   // qDebug() << "im in the mainwindow";
+   // QImage img = scribbleArea->getImage();
+    //qDebug() << img.width();
 }
 
 //! [1]

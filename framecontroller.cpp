@@ -1,10 +1,9 @@
-#include <QPushButton>
-#include <QBoxLayout>
 #include "headers/framecontroller.h"
-#include <iostream>
+#include <QBoxLayout>
 #include <QLabel>
 #include <QShortcut>
 #include <QKeySequence>
+#include <QDebug>
 
 /*
  *   provides adding, removing, clearing, and moving between frames functionalities
@@ -29,11 +28,11 @@ FrameController::FrameController(QWidget *parent)
     totalFramesLabel->setMaximumHeight(15);
     currFrameLabel ->setMaximumHeight(15);
 
-    QPushButton* nextBtn = new QPushButton();
-    QPushButton* prevBtn = new QPushButton();
-    QPushButton* addBtn = new QPushButton();
-    QPushButton* removeBtn = new QPushButton();
-    QPushButton* clearBtn = new QPushButton();
+    nextBtn = new QPushButton();
+    prevBtn = new QPushButton();
+    addBtn = new QPushButton();
+    removeBtn = new QPushButton();
+    clearBtn = new QPushButton();
 
     prevBtn->setText("prev");
     nextBtn->setText("next");
@@ -52,17 +51,18 @@ FrameController::FrameController(QWidget *parent)
 
     // hookup some keys to the button actions as well
     // https://stackoverflow.com/questions/4629629/assign-shortcut-keys-to-buttons-qt-c
+    // https://thispointer.com/c11-lambda-how-to-capture-member-variables-inside-lambda-function/
     QShortcut *rightKey = new QShortcut(QKeySequence(Qt::Key_Right), nextBtn);
-    connect(rightKey, &QShortcut::activated, [nextBtn](){nextBtn->animateClick();}); // using an anonymus function!
+    connect(rightKey, &QShortcut::activated, [this](){nextBtn->animateClick();}); // using an anonymous function!
 
     QShortcut *leftKey = new QShortcut(QKeySequence(Qt::Key_Left), prevBtn);
-    connect(leftKey, &QShortcut::activated, [prevBtn](){prevBtn->animateClick();});
+    connect(leftKey, &QShortcut::activated, [this](){prevBtn->animateClick();});
 
     QShortcut *plusKey = new QShortcut(QKeySequence(Qt::Key_Plus), addBtn);
-    connect(plusKey, &QShortcut::activated, [addBtn](){addBtn->animateClick();});
+    connect(plusKey, &QShortcut::activated, [this](){addBtn->animateClick();});
 
     QShortcut *minusKey = new QShortcut(QKeySequence(Qt::Key_Minus), removeBtn);
-    connect(minusKey, &QShortcut::activated, [removeBtn](){removeBtn->animateClick();});
+    connect(minusKey, &QShortcut::activated, [this](){removeBtn->animateClick();});
 
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     layout->addWidget(totalFramesLabel);
@@ -140,10 +140,33 @@ void FrameController::tabletEvent(QTabletEvent *event)
 
     if (event->type() != QEvent::TabletLeaveProximity) {
         if (event->device() == QTabletEvent::Stylus){
+            //qDebug() << "the position of the tablet event is: " << event->pos();
+            //qDebug() << "the position of the add button is: " << addBtn->pos();
             switch(event->type()){
                 case QEvent::TabletPress:
                 {
-                    std::cout << "tablet event triggered!" << std::endl;
+                    //qDebug() << "tablet event triggered!";
+                    qDebug() << "the position of the tablet event is: " << event->pos();
+                    qDebug() << "the position of the add button is: " << addBtn->pos();
+                    int eventPosY = event->y();
+                    int addBtnY = addBtn->y();
+                    int removeBtnY = removeBtn->y();
+                    int nextBtnY = nextBtn->y();
+                    int prevBtnY = prevBtn->y();
+                    int clearBtnY = clearBtn->y();
+
+                    if(eventPosY <= addBtnY + 15 && eventPosY >= addBtnY){
+                        addBtn->animateClick();
+                    }else if(eventPosY <= removeBtnY + 15 && eventPosY >= removeBtnY){
+                        removeBtn->animateClick();
+                    }else if(eventPosY <= nextBtnY + 15 && eventPosY >= nextBtnY){
+                        nextBtn->animateClick();
+                    }else if(eventPosY <= prevBtnY + 15 && eventPosY >= prevBtnY){
+                        prevBtn->animateClick();
+                    }else if(eventPosY <= clearBtnY + 15 && eventPosY >= clearBtnY){
+                        clearBtn->animateClick();
+                    }
+
                 }
                 break;
                 default:
