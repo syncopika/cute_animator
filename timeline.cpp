@@ -23,10 +23,10 @@ Timeline::Timeline(QWidget *parent)
 
     // add QGraphicsView to hold the QGraphicsScene, which will hold each frame
     // as a QGraphicsPixmapItem
-    containerScene = new QGraphicsScene(this);
-    container = new QGraphicsView(containerScene, this);
-    containerScene->addText("blah blah blah frames show up here");
-    layout->addWidget(container);
+    //containerScene = new QGraphicsScene(this);
+   // container = new QGraphicsView(containerScene, this);
+   //containerScene->addText("blah blah blah frames show up here");
+    //layout->addWidget(container);
 
     btn = new QPushButton();
     connect(btn, SIGNAL(clicked()), this, SLOT(emitAnimationSignal()));
@@ -40,7 +40,6 @@ Timeline::Timeline(QWidget *parent)
     layout->addWidget(editDelay);
 
     setLayout(layout);
-
 }
 
 // is this even working? can we make the initial scribble area to be a solid color to check?

@@ -67,7 +67,7 @@ ScribbleArea::ScribbleArea(QWidget *parent)
     modified = false;
     scribbling = false;
     myPenWidth = 1;
-    myPenColor = Qt::blue;
+    myPenColor = Qt::black; // set default pen color to black
 
 }
 //! [0]
@@ -90,7 +90,7 @@ bool ScribbleArea::openImage(const QString &fileName)
 //! [2]
 
 //! [3]
-// NOTE THAT BMPs don't support alpha channel so instead of getting transparency youll just get black pixels!
+// NOTE THAT BMPs don't support alpha channel so instead of getting transparency you'll just get black pixels!
 // https://forum.qt.io/topic/86938/alpha-channel-not-written-to-bmp-by-qimage-save/9
 bool ScribbleArea::saveImage(const QString &fileName, const char *fileFormat)
 //! [3] //! [4]

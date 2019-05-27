@@ -67,11 +67,12 @@ FrameController::FrameController(QWidget *parent)
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     layout->addWidget(totalFramesLabel);
     layout->addWidget(currFrameLabel);
+
+    layout->addWidget(addBtn);
+    layout->addWidget(nextBtn);
+    layout->addWidget(prevBtn);
     layout->addWidget(clearBtn);
     layout->addWidget(removeBtn);
-    layout->addWidget(addBtn);
-    layout->addWidget(prevBtn);
-    layout->addWidget(nextBtn);
 
     setLayout(layout);
 }
@@ -146,8 +147,8 @@ void FrameController::tabletEvent(QTabletEvent *event)
                 case QEvent::TabletPress:
                 {
                     //qDebug() << "tablet event triggered!";
-                    qDebug() << "the position of the tablet event is: " << event->pos();
-                    qDebug() << "the position of the add button is: " << addBtn->pos();
+                   // qDebug() << "the position of the tablet event is: " << event->pos();
+                   // qDebug() << "the position of the add button is: " << addBtn->pos();
                     int eventPosY = event->y();
                     int addBtnY = addBtn->y();
                     int removeBtnY = removeBtn->y();
