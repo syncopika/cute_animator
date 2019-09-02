@@ -1,6 +1,6 @@
 #include <QtWidgets>
-#include "headers/mainwindowcontent.h"
 #include <iostream>
+#include "headers/mainwindowcontent.h"
 
 // https://doc.qt.io/qt-5/mainwindow.html
 // https://doc.qt.io/qt-5/qtwidgets-tutorials-widgets-nestedlayouts-example.html
@@ -53,6 +53,9 @@ void MainWindowContent::addFrame(){
     //layout->removeWidget(scribbleArea);
    // scribbleArea = newFrame;
     //layout->addWidget(scribbleArea, 0, 5);
+
+    // update timeline
+    timeline->updateTimeline();
 }
 
 void MainWindowContent::removeFrame(){
@@ -96,6 +99,9 @@ void MainWindowContent::removeFrame(){
     delete temp;
 
     frames = tempFrames;
+
+    // update timeline
+    timeline->updateTimeline();
 }
 
 // for onion skin?
@@ -128,6 +134,8 @@ void MainWindowContent::nextFrame(){
     }
 
     //onionLayer->stackUnder(scribbleArea);
+    // update timeline
+    timeline->updateTimeline();
 }
 
 void MainWindowContent::prevFrame(){
@@ -149,6 +157,9 @@ void MainWindowContent::prevFrame(){
 
     //scribbleArea->clearImage();
    // std::cout << scribbleArea << std::endl;
+
+    // update timeline
+    timeline->updateTimeline();
 }
 
 void MainWindowContent::clearFrame(){

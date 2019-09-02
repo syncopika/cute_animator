@@ -1,6 +1,5 @@
 ## cute animator 😻    
-a basic animation application made with Qt! (derived from the Qt Scribble example)    
-feel free to try the executable in the .zip file!    
+a basic animation application made with Qt! (derived from the Qt Scribble example)        
     
 ![gif of the application with tablet!](other/tabletsupport.gif)  
      

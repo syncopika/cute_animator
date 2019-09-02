@@ -14,8 +14,9 @@ class Timeline : public QWidget
     Q_OBJECT
 
 public:
-    Timeline(QWidget *parent = nullptr);
+    Timeline(QWidget *parent);
     void addFrameToTimeline(QImage image);
+    void updateTimeline();
 
 signals:
     void doAnimation(int frameDelay);
@@ -30,6 +31,8 @@ private:
 
     QGraphicsView* container;
     QGraphicsScene* containerScene;
+
+    QWidget* parentWidget;
 };
 
 #endif // TIMELINE_H

@@ -1,4 +1,6 @@
 #include "headers/timeline.h"
+#include "headers/scribblearea.h"
+#include "headers/mainwindowcontent.h"
 #include <QString>
 #include <iostream>
 #include <QTextStream>
@@ -20,32 +22,45 @@
 Timeline::Timeline(QWidget *parent)
 {
     layout = new QHBoxLayout(this);
+    parentWidget = parent;
 
     // add QGraphicsView to hold the QGraphicsScene, which will hold each frame
     // as a QGraphicsPixmapItem
     //containerScene = new QGraphicsScene(this);
-   // container = new QGraphicsView(containerScene, this);
-   //containerScene->addText("blah blah blah frames show up here");
+    // container = new QGraphicsView(containerScene, this);
+    //containerScene->addText("blah blah blah frames show up here");
     //layout->addWidget(container);
 
-    btn = new QPushButton();
+    btn = new QPushButton(); // button to animate sequence
     connect(btn, SIGNAL(clicked()), this, SLOT(emitAnimationSignal()));
 
-    editDelay = new QLineEdit(this);
+    editDelay = new QLineEdit(this); // edit box to enter animation speed
     btn->setFixedWidth(80);
     editDelay->setFixedWidth(80);
 
     btn->setText("animate");
-    layout->addWidget(btn);
-    layout->addWidget(editDelay);
+
+    // display for thumbnails of current frames
+    containerScene = new QGraphicsScene(this);
+    container = new QGraphicsView(containerScene, this);
+    //containerScene->addText("blah blah blah frames show up here");
+    layout->addWidget(container, 60);
+
+    layout->addWidget(btn, 20);
+    layout->addWidget(editDelay, 20);
+
+    // testing
+    //addFrameToTimeline(QImage("C:\\Users\\Nicholas\\Desktop\\programming\\build-cute_animator-Desktop_Qt_5_12_2_MinGW_32_bit-Debug\\debug\\screen12.bmp"));
 
     setLayout(layout);
 }
 
 // is this even working? can we make the initial scribble area to be a solid color to check?
 void Timeline::addFrameToTimeline(QImage image){
+    qDebug() << "hello this is a test";
+    qDebug() << "image is null: " << image.isNull();
 
-    // check out the image to make sure its what you expect?
+    /* check out the image to make sure its what you expect?
     qDebug() << "image width: " << image.width();
     qDebug() << "image height: " << image.height();
     for(int i = 0; i < image.height(); i++){
@@ -57,21 +72,35 @@ void Timeline::addFrameToTimeline(QImage image){
             newColor.setAlpha(255);
             image.setPixelColor(j, i, newColor);
         }
-    }
+    }*/
 
     // need to make sure image is scaled
-    QPixmap pixmap = QPixmap::fromImage(image);//QPixmap("C:\\Users\\Nicholas Hung\\Desktop\\build-cute_animator-Desktop_Qt_5_13_0_MinGW_32_bit-Debug\\debug\\bocchi2.png"); //QPixmap::fromImage(image);
+    QPixmap pixmap = QPixmap::fromImage(image);
+    //QPixmap("C:\\Users\\Nicholas Hung\\Desktop\\build-cute_animator-Desktop_Qt_5_13_0_MinGW_32_bit-Debug\\debug\\bocchi2.png"); //QPixmap::fromImage(image);
     QPixmap scaledPixmap = pixmap.scaled(50,50);
 
     QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
     containerScene->addItem(frame);
 
-    QGraphicsPixmapItem* frame2 = new QGraphicsPixmapItem(scaledPixmap);
-    frame2->moveBy(80, 0);
-    containerScene->addItem(frame2);
+    //QGraphicsPixmapItem* frame2 = new QGraphicsPixmapItem(scaledPixmap);
+   // frame2->moveBy(80, 0);
+    //containerScene->addItem(frame2);
 
     container->show();
-    qDebug() << "supposed to add frame to timeline...";
+   // qDebug() << "supposed to add frame to timeline...";
+}
+
+void Timeline::updateTimeline(){
+    // clear the timeline
+    QList<QGraphicsItem*> images = containerScene->items();
+    for(int i = 0; i < images.size(); i++){
+        containerScene->removeItem(images[i]);
+    }
+
+    QVector<ScribbleArea*> frames = ((MainWindowContent *)parentWidget)->getAllFrames();
+    for(int i = 0; i < frames.size(); i++){
+        addFrameToTimeline(frames[i]->getImage());
+    }
 }
 
 void Timeline::emitAnimationSignal(){
