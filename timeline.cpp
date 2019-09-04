@@ -17,6 +17,11 @@
  * https://stackoverflow.com/questions/5960074/qimage-in-a-qgraphics-scene
  * https://stackoverflow.com/questions/16609874/qgraphicsview-not-showing-the-picture
  *
+ *
+ * https://www.qtcentre.org/threads/22835-QGraphicsScene-item-positioning
+ * https://stackoverflow.com/questions/10230696/how-to-correctly-use-qgraphicslinearlayout-together-with-qgraphicsscene-in-order?rq=1
+ * https://stackoverflow.com/questions/17395312/subclassing-qgraphicslayoutitem-to-display-a-pixmap
+ *
  */
 
 Timeline::Timeline(QWidget *parent)
@@ -40,12 +45,22 @@ Timeline::Timeline(QWidget *parent)
 
     btn->setText("animate");
 
+
+    // display thumbnails linearly
+    containerLayout = new QGraphicsLinearLayout;
+
     // display for thumbnails of current frames
     containerScene = new QGraphicsScene(this);
     container = new QGraphicsView(containerScene, this);
-    //containerScene->addText("blah blah blah frames show up here");
-    layout->addWidget(container, 60);
 
+    form = new QGraphicsWidget;
+    form->setLayout(containerLayout);
+    containerScene->addItem(form);
+
+    //container->setBackgroundBrush(Qt::black);
+    //containerScene->addText("blah blah blah frames show up here");
+
+    layout->addWidget(container, 60); // the container will occupy 60% of the timeline
     layout->addWidget(btn, 20);
     layout->addWidget(editDelay, 20);
 
@@ -80,7 +95,10 @@ void Timeline::addFrameToTimeline(QImage image){
     QPixmap scaledPixmap = pixmap.scaled(50,50);
 
     QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
-    containerScene->addItem(frame);
+    //containerScene->addItem(frame);
+
+    // fix this
+    //containerLayout->addItem(frame);
 
     //QGraphicsPixmapItem* frame2 = new QGraphicsPixmapItem(scaledPixmap);
    // frame2->moveBy(80, 0);
