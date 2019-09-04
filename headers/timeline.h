@@ -8,6 +8,8 @@
 #include <QLineEdit>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsWidget>
 
 class Timeline : public QWidget
 {
@@ -31,6 +33,8 @@ private:
 
     QGraphicsView* container;
     QGraphicsScene* containerScene;
+    QGraphicsLinearLayout* containerLayout;
+    QGraphicsWidget* form;
 
     QWidget* parentWidget;
 };

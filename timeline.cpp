@@ -7,6 +7,8 @@
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QDebug>
+#include <QPen>
+#include <QPainter>
 
 /*
  *  provides animation button, allows setting the delay in ms between frames for animation
@@ -72,8 +74,8 @@ Timeline::Timeline(QWidget *parent)
 
 // is this even working? can we make the initial scribble area to be a solid color to check?
 void Timeline::addFrameToTimeline(QImage image){
-    qDebug() << "hello this is a test";
-    qDebug() << "image is null: " << image.isNull();
+
+   // qDebug() << "image is null: " << image.isNull();
 
     /* check out the image to make sure its what you expect?
     qDebug() << "image width: " << image.width();
@@ -91,11 +93,20 @@ void Timeline::addFrameToTimeline(QImage image){
 
     // need to make sure image is scaled
     QPixmap pixmap = QPixmap::fromImage(image);
+
+    //qDebug() << "image width: " << pixmap.width();
+    //qDebug() << "image height: " << pixmap.height();
+
     //QPixmap("C:\\Users\\Nicholas Hung\\Desktop\\build-cute_animator-Desktop_Qt_5_13_0_MinGW_32_bit-Debug\\debug\\bocchi2.png"); //QPixmap::fromImage(image);
-    QPixmap scaledPixmap = pixmap.scaled(50,50);
+    // use painer.drawPixmap to add the actual image to another pixmap while also having borders that don't interfere with the original image
+    QPixmap scaledPixmap = pixmap.scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    QPainter* painter = new QPainter(&scaledPixmap);
+    painter->setPen(QPen(Qt::black, 3));
+    painter->drawRect(0,0,scaledPixmap.width()-1,scaledPixmap.height()-1);
+    delete painter;
 
     QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
-    //containerScene->addItem(frame);
+    containerScene->addItem(frame);
 
     // fix this
     //containerLayout->addItem(frame);
