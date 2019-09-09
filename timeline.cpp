@@ -1,6 +1,8 @@
 #include "headers/timeline.h"
 #include "headers/scribblearea.h"
 #include "headers/mainwindowcontent.h"
+#include "headers/framethumbnail.h"
+
 #include <QString>
 #include <iostream>
 #include <QTextStream>
@@ -106,6 +108,10 @@ void Timeline::addFrameToTimeline(QImage image){
     delete painter;
 
     QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
+
+    // YOU NEED TO DELETE THIS SOMEHOW IF THE FRAME NEEDS TO BE REMOVED
+    // YOU ARE RESPONSIBLE FOR PROPER DELETION OK?
+    //FrameThumbnail* frame = new FrameThumbnail(scaledPixmap, 50, 50);
     containerScene->addItem(frame);
 
     // fix this
