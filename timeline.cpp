@@ -49,7 +49,6 @@ Timeline::Timeline(QWidget *parent)
 
     btn->setText("animate");
 
-
     // display thumbnails linearly
     containerLayout = new QGraphicsLinearLayout;
 
@@ -61,15 +60,9 @@ Timeline::Timeline(QWidget *parent)
     form->setLayout(containerLayout);
     containerScene->addItem(form);
 
-    //container->setBackgroundBrush(Qt::black);
-    //containerScene->addText("blah blah blah frames show up here");
-
     layout->addWidget(container, 60); // the container will occupy 60% of the timeline
     layout->addWidget(btn, 20);
     layout->addWidget(editDelay, 20);
-
-    // testing
-    //addFrameToTimeline(QImage("C:\\Users\\Nicholas\\Desktop\\programming\\build-cute_animator-Desktop_Qt_5_12_2_MinGW_32_bit-Debug\\debug\\screen12.bmp"));
 
     setLayout(layout);
 }
@@ -107,19 +100,14 @@ void Timeline::addFrameToTimeline(QImage image){
     painter->drawRect(0,0,scaledPixmap.width()-1,scaledPixmap.height()-1);
     delete painter;
 
-    QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
+    // use FrameThumbnail instead of QGraphicsPixmapItem
+    //QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
 
     // YOU NEED TO DELETE THIS SOMEHOW IF THE FRAME NEEDS TO BE REMOVED
     // YOU ARE RESPONSIBLE FOR PROPER DELETION OK?
-    //FrameThumbnail* frame = new FrameThumbnail(scaledPixmap, 50, 50);
+    FrameThumbnail* frame = new FrameThumbnail(scaledPixmap);
     containerScene->addItem(frame);
-
-    // fix this
-    //containerLayout->addItem(frame);
-
-    //QGraphicsPixmapItem* frame2 = new QGraphicsPixmapItem(scaledPixmap);
-   // frame2->moveBy(80, 0);
-    //containerScene->addItem(frame2);
+    containerLayout->addItem(frame);
 
     container->show();
    // qDebug() << "supposed to add frame to timeline...";
@@ -127,9 +115,15 @@ void Timeline::addFrameToTimeline(QImage image){
 
 void Timeline::updateTimeline(){
     // clear the timeline
+    // use the scene's clear method! but this deletes from memory. since containerlayout shares that memory,
+    // bad things will happen :/
+    //containerScene->clear();
+
     QList<QGraphicsItem*> images = containerScene->items();
     for(int i = 0; i < images.size(); i++){
+        // note this does not free memory!!!
         containerScene->removeItem(images[i]);
+        containerLayout->removeItem((FrameThumbnail*)images[i]);
     }
 
     QVector<ScribbleArea*> frames = ((MainWindowContent *)parentWidget)->getAllFrames();

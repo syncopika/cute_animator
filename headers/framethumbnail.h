@@ -10,8 +10,8 @@ class FrameThumbnail : public QGraphicsPixmapItem, public QGraphicsLayoutItem
 {
 
 public:
-    FrameThumbnail(QPixmap image, int width, int height);
-    virtual void setGeometry(const QRectF & rect);
+    FrameThumbnail(QPixmap image);
+    virtual void setGeometry(const QRectF& rect);
 
 protected:
     virtual QSizeF sizeHint(Qt::SizeHint which, const QSizeF& constraint = QSizeF()) const;
