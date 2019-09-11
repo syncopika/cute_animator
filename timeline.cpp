@@ -26,19 +26,13 @@
  * https://stackoverflow.com/questions/10230696/how-to-correctly-use-qgraphicslinearlayout-together-with-qgraphicsscene-in-order?rq=1
  * https://stackoverflow.com/questions/17395312/subclassing-qgraphicslayoutitem-to-display-a-pixmap
  *
+ *
  */
 
 Timeline::Timeline(QWidget *parent)
 {
     layout = new QHBoxLayout(this);
     parentWidget = parent;
-
-    // add QGraphicsView to hold the QGraphicsScene, which will hold each frame
-    // as a QGraphicsPixmapItem
-    //containerScene = new QGraphicsScene(this);
-    // container = new QGraphicsView(containerScene, this);
-    //containerScene->addText("blah blah blah frames show up here");
-    //layout->addWidget(container);
 
     btn = new QPushButton(); // button to animate sequence
     connect(btn, SIGNAL(clicked()), this, SLOT(emitAnimationSignal()));
@@ -70,22 +64,6 @@ Timeline::Timeline(QWidget *parent)
 // is this even working? can we make the initial scribble area to be a solid color to check?
 void Timeline::addFrameToTimeline(QImage image){
 
-   // qDebug() << "image is null: " << image.isNull();
-
-    /* check out the image to make sure its what you expect?
-    qDebug() << "image width: " << image.width();
-    qDebug() << "image height: " << image.height();
-    for(int i = 0; i < image.height(); i++){
-        for(int j = 0; j < image.width(); j++){
-            if(i == 0 && j < 5){
-                qDebug() << image.pixelColor(j, i);
-            }
-            QColor newColor = Qt::black;
-            newColor.setAlpha(255);
-            image.setPixelColor(j, i, newColor);
-        }
-    }*/
-
     // need to make sure image is scaled
     QPixmap pixmap = QPixmap::fromImage(image);
 
@@ -105,6 +83,8 @@ void Timeline::addFrameToTimeline(QImage image){
 
     // YOU NEED TO DELETE THIS SOMEHOW IF THE FRAME NEEDS TO BE REMOVED
     // YOU ARE RESPONSIBLE FOR PROPER DELETION OK?
+    // store frames in an array that timeline will be responsible for
+    // you can use that as a reference for when you need to remove frames from containerLayout
     FrameThumbnail* frame = new FrameThumbnail(scaledPixmap);
     containerScene->addItem(frame);
     containerLayout->addItem(frame);
@@ -123,10 +103,10 @@ void Timeline::updateTimeline(){
     for(int i = 0; i < images.size(); i++){
         // note this does not free memory!!!
         containerScene->removeItem(images[i]);
-        containerLayout->removeItem((FrameThumbnail*)images[i]);
+        containerLayout->removeItem(static_cast<FrameThumbnail*>(images[i]));
     }
 
-    QVector<ScribbleArea*> frames = ((MainWindowContent *)parentWidget)->getAllFrames();
+    QVector<ScribbleArea*> frames = static_cast<MainWindowContent*>(parentWidget)->getAllFrames();
     for(int i = 0; i < frames.size(); i++){
         addFrameToTimeline(frames[i]->getImage());
     }

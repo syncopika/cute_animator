@@ -1,10 +1,12 @@
 1. clear screen option in menu only clears the very first frame. so when you're on a different frame and you expect to clear that one, it doesn't happen.
     - decided to make a button to clear current screen instead
+
 2. saving an image gives a black background (due to transparency). not really a bug then, but what if I want a white background? (change transparency when saving images?)
     - changed transparent pixels to be white when saving images.
+
 3. not sure a bug, but how to cleanly remove focus on textbox after clicking on it without having to draw on the canvas again to shift focus?
    I want to easily regain control over the arrow keys to traverse frames after changing frame rate, if that makes sense.
-4. can't change pen color (always gets reset to black)
-5. qGraphicsScene or qGraphicsView is stacking items that get added, but they should be displayed in a line  - 9/10/19 DONE
-6. Double-clicking occuring when clicking on buttons with tablet pen
-7. Drawing with tablet pen seems to join certain segments of a continuous stroke. maybe there's something going on with recording the last point drawn?
+
+4. Double-clicking occuring when clicking on buttons with tablet pen
+
+5. Drawing with tablet pen seems to join certain segments of a continuous stroke. maybe there's something going on with recording the last point drawn?

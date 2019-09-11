@@ -155,9 +155,6 @@ void MainWindowContent::prevFrame(){
     layout->addWidget(scribbleArea, BorderLayout::Center);
     scribbleArea->setVisible(true);
 
-    //scribbleArea->clearImage();
-   // std::cout << scribbleArea << std::endl;
-
     // update timeline
     timeline->updateTimeline();
 }
@@ -167,7 +164,7 @@ void MainWindowContent::clearFrame(){
 }
 
 void MainWindowContent::preAnimation(int frameDelay){
-    std::cout << "frame delay: " << frameDelay << std::endl;
+    //std::cout << "frame delay: " << frameDelay << std::endl;
     this->frameDelay = frameDelay;
     emit animateSignal();
 }

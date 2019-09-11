@@ -1,16 +1,23 @@
-1. add more to the timeline. thumbnails of frames?
-2. set frame rate in timeline.
+1. add more to the timeline. thumbnails of frames? done
+
+2. set frame rate in timeline. done
+
 3. move color/pen adjust to left side of main window content?
+
 4. support for tablets!!
    - basic support done (at least for drawing)
    - need to make buttons pressable by pen/stylus
    - add pressure sensitivity (change pen width based on pressure)
-   => this is done! :)
-5. toggle opacity level for onion skin?
+   => sort of done / buggy
+
+5. toggle opacity level for onion skin? (and toggle onion skin on/off)
+
 6. drawing with a stylus isn't that smooth at times - i.e. when pressing down
    with the stylus a white circle/icon thingy appears (maybe a property of the tablet/stylus
    software that I don't quite understand right now). this causes lag and I can't see what I've drawn
    until I move the stylus. Not sure if there's anything I can do about it but would be good to research.
+
 7. layers for ScribbleArea? i.e. if I want to have a background and to draw some characters with that background,
    it would be good to keep them as separate layers and collate them into a single image when saving.
+
 8. make animate button in the timeline responsive to tabletevents.
