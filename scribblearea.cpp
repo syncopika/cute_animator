@@ -90,7 +90,6 @@ bool ScribbleArea::openImage(const QString &fileName)
 //! [2]
 
 //! [3]
-// NOTE THAT BMPs don't support alpha channel so instead of getting transparency you'll just get black pixels!
 // https://forum.qt.io/topic/86938/alpha-channel-not-written-to-bmp-by-qimage-save/9
 bool ScribbleArea::saveImage(const QString &fileName, const char *fileFormat)
 //! [3] //! [4]
@@ -99,8 +98,6 @@ bool ScribbleArea::saveImage(const QString &fileName, const char *fileFormat)
     resizeImage(&visibleImage, size());
 
     // get rid of transparency
-    // the issue here is that all the non-colored pixels are black! (this applies to formats that aren't supporting the alpha channel)
-    // however! the setting alpha to 255 definitely works.
     // https://stackoverflow.com/questions/1549634/qt-qimage-always-saves-transparent-color-as-black
     for(int i = 0; i < visibleImage.height(); i++){
         for(int j = 0; j < visibleImage.width(); j++){
@@ -155,13 +152,12 @@ void ScribbleArea::tabletEvent(QTabletEvent *event)
     /* relevant events:
      * QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
      */
-
     if (event->type() != QEvent::TabletLeaveProximity) {
         if (event->device() == QTabletEvent::Stylus){
             switch(event->type()){
                 case QEvent::TabletPress:
                 {
-                    //std::cout << "tablet event triggered!" << std::endl;
+                    //std::cout << "tablet PRESS triggered!" << std::endl;
                     lastPoint = event->pos();
                     myPenWidth = int(event->pressure() * 10);
                     scribbling = true;
@@ -177,15 +173,12 @@ void ScribbleArea::tabletEvent(QTabletEvent *event)
                 {
                     drawLineTo(event->pos());
                     scribbling = false;
+                    //std::cout << "tablet RELEASE triggered!" << std::endl;
                 }
                 break;
                 default:
                     break;
             }
-            /*
-            if(event->type() == QEvent::TabletPress){
-                std::cout << "tablet event triggered!" << std::endl;
-            }*/
         }
     }
     event->accept();
@@ -244,8 +237,7 @@ void ScribbleArea::drawLineTo(const QPoint &endPoint)
 //! [17] //! [18]
 {
     QPainter painter(&image);
-    painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap,
-                        Qt::RoundJoin));
+    painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter.drawLine(lastPoint, endPoint);
     modified = true;
 

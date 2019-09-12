@@ -55,7 +55,7 @@ void MainWindowContent::addFrame(){
     //layout->addWidget(scribbleArea, 0, 5);
 
     // update timeline
-    timeline->updateTimeline();
+    //timeline->updateTimeline();
 }
 
 void MainWindowContent::removeFrame(){

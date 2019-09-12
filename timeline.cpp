@@ -73,10 +73,9 @@ void Timeline::addFrameToTimeline(QImage image){
     //QPixmap("C:\\Users\\Nicholas Hung\\Desktop\\build-cute_animator-Desktop_Qt_5_13_0_MinGW_32_bit-Debug\\debug\\bocchi2.png"); //QPixmap::fromImage(image);
     // use painer.drawPixmap to add the actual image to another pixmap while also having borders that don't interfere with the original image
     QPixmap scaledPixmap = pixmap.scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-    QPainter* painter = new QPainter(&scaledPixmap);
-    painter->setPen(QPen(Qt::black, 3));
-    painter->drawRect(0,0,scaledPixmap.width()-1,scaledPixmap.height()-1);
-    delete painter;
+    QPainter painter(&scaledPixmap);
+    painter.setPen(QPen(Qt::black, 3));
+    painter.drawRect(0,0,scaledPixmap.width()-1,scaledPixmap.height()-1);
 
     // use FrameThumbnail instead of QGraphicsPixmapItem
     //QGraphicsPixmapItem* frame = new QGraphicsPixmapItem(scaledPixmap);
