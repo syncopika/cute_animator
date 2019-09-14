@@ -9,21 +9,16 @@
  *   provides adding, removing, clearing, and moving between frames functionalities
  *   need to provide tablet support for activating buttons?
  */
-
 FrameController::FrameController(QWidget *parent)
 {
     // set private vars
     numFrames = 1;
     currFrame = 0;
+    tabletActive = false;
 
     // set up buttons/layout
     currFrameLabel = new QLabel(this);
     totalFramesLabel = new QLabel(this);
-
-    //QPalette pal = palette();
-    //pal.setColor(QPalette::Background, Qt::blue);
-    //totalFramesLabel->setAutoFillBackground(true);
-    //totalFramesLabel->setPalette(pal);
 
     totalFramesLabel->setMaximumHeight(15);
     currFrameLabel ->setMaximumHeight(15);
@@ -102,7 +97,6 @@ void FrameController::nextButtonClicked(){
 }
 
 void FrameController::addButtonClicked(){
-    //std::cout << "adding a new frame!" << std::endl;
     numFrames++;
     totalFramesLabel->setText("total frames: " + QString::number(numFrames));
     emit addFrame();
@@ -130,54 +124,45 @@ void FrameController::setCurrFrame(int curr){
     currFrameLabel->setText("curr frame: " + QString::number(currFrame+1));
 }
 
-
-// try registering tablet events
 // https://stackoverflow.com/questions/36050747/qt-c-how-to-get-event-target-object
 void FrameController::tabletEvent(QTabletEvent *event)
 {
-    /* relevant events:
-     * QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
-     */
-    if (event->type() != QEvent::TabletLeaveProximity) {
-        if (event->device() == QTabletEvent::Stylus){
-            //qDebug() << "the position of the tablet event is: " << event->pos();
-            //qDebug() << "the position of the add button is: " << addBtn->pos();
-            switch(event->type()){
-                case QEvent::TabletPress:
-                {
-                   // qDebug() << "the position of the tablet event is: " << event->pos();
-                   // qDebug() << "the position of the add button is: " << addBtn->pos();
-                    int eventPosY = event->y();
-                    int addBtnY = addBtn->y();
-                    int removeBtnY = removeBtn->y();
-                    int nextBtnY = nextBtn->y();
-                    int prevBtnY = prevBtn->y();
-                    int clearBtnY = clearBtn->y();
+    switch(event->type()){
+        case QEvent::TabletPress:
+        {
+            int eventPosY = event->y();
+            int addBtnY = addBtn->y();
+            int removeBtnY = removeBtn->y();
+            int nextBtnY = nextBtn->y();
+            int prevBtnY = prevBtn->y();
+            int clearBtnY = clearBtn->y();
 
-                    if(eventPosY <= addBtnY + 15 && eventPosY >= addBtnY){
-                        addBtn->animateClick();
-                        qDebug() << "clicked Add button!";
-                    }else if(eventPosY <= removeBtnY + 15 && eventPosY >= removeBtnY){
-                        removeBtn->animateClick();
-                        qDebug() << "clicked Remove button!";
-                    }else if(eventPosY <= nextBtnY + 15 && eventPosY >= nextBtnY){
-                        nextBtn->animateClick();
-                        qDebug() << "clicked Next button!";
-                    }else if(eventPosY <= prevBtnY + 15 && eventPosY >= prevBtnY){
-                        prevBtn->animateClick();
-                        qDebug() << "clicked Prev button!";
-                    }else if(eventPosY <= clearBtnY + 15 && eventPosY >= clearBtnY){
-                        clearBtn->animateClick();
-                        qDebug() << "clicked Clear button!";
-                    }
-
-                }
-                break;
-                default:
-                    break;
+            if(eventPosY <= addBtnY + 15 && eventPosY >= addBtnY){
+                addBtn->animateClick();
+                qDebug() << "clicked Add button!";
+            }else if(eventPosY <= removeBtnY + 15 && eventPosY >= removeBtnY){
+                removeBtn->animateClick();
+                qDebug() << "clicked Remove button!";
+            }else if(eventPosY <= nextBtnY + 15 && eventPosY >= nextBtnY){
+                nextBtn->animateClick();
+                qDebug() << "clicked Next button!";
+            }else if(eventPosY <= prevBtnY + 15 && eventPosY >= prevBtnY){
+                prevBtn->animateClick();
+                qDebug() << "clicked Prev button!";
+            }else if(eventPosY <= clearBtnY + 15 && eventPosY >= clearBtnY){
+                clearBtn->animateClick();
+                qDebug() << "clicked Clear button!";
             }
         }
+        break;
+        default:
+            return;
     }
     event->accept();
 }
 
+// slot
+void FrameController::setTabletActive(bool active){
+    qDebug() << "received signal from app to toggle tablet active in framecontroller!";
+    tabletActive = active;
+}

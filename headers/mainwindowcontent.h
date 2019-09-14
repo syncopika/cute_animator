@@ -18,6 +18,7 @@ class MainWindowContent : public QWidget
 public:
     MainWindowContent(QWidget *parent = nullptr);
     ScribbleArea* getCurrFrame();
+    FrameController* getFrameController();
     QVector<ScribbleArea*> getAllFrames();
 
 signals:

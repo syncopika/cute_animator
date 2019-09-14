@@ -10,7 +10,9 @@ class TabletApplication : public QApplication
 public:
     using QApplication::QApplication;
     bool event(QEvent* event) override;
-    void addWindow(MainWindow* win);
+    void addMainWindow(MainWindow* window);
+    void connectMainWindow(MainWindow* canvas);
+    void connectFrameController(FrameController* controller);
 
 private:
     MainWindow* appWindow;

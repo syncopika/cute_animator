@@ -19,6 +19,8 @@ public:
     void setCurrFrame(int curr);
 
 private:
+    bool tabletActive;
+
     int numFrames;
     int currFrame;
 
@@ -35,6 +37,8 @@ private:
 protected:
     void tabletEvent(QTabletEvent *event) override;
 
+public slots:
+    void setTabletActive(bool active);
 
 signals:
     void addFrame();

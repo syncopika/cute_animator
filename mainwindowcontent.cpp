@@ -49,14 +49,6 @@ void MainWindowContent::addFrame(){
     //std::cout << "signal to add a new frame received!" << std::endl;
     ScribbleArea* newFrame = new ScribbleArea(this);
     frames.push_back(newFrame);
-
-    // use QStackedWidget instead??? https://stackoverflow.com/questions/4625102/how-to-replace-a-widget-with-another-using-qt
-    //layout->removeWidget(scribbleArea);
-   // scribbleArea = newFrame;
-    //layout->addWidget(scribbleArea, 0, 5);
-
-    // update timeline
-    //timeline->updateTimeline();
 }
 
 void MainWindowContent::removeFrame(){
@@ -107,14 +99,17 @@ void MainWindowContent::removeFrame(){
 
 // for onion skin?
 // https://forum.qt.io/topic/41237/how-to-set-opacity-of-a-qimage/7
-//
 void MainWindowContent::nextFrame(){
 
     layout->removeWidget(scribbleArea);
     scribbleArea->setVisible(false);
 
+    // get the tabletActive value of the current frame before changing to next
+    bool tabletActiveValue = scribbleArea->getTabletActive();
+
     // add next frame and show
     scribbleArea = frames[frameController->getCurrFrame()];
+    scribbleArea->setTabletActive(tabletActiveValue);
     layout->addWidget(scribbleArea, BorderLayout::Center);
     scribbleArea->setVisible(true);
 
@@ -134,7 +129,6 @@ void MainWindowContent::nextFrame(){
         onionLayer->setVisible(true);
     }
 
-    //onionLayer->stackUnder(scribbleArea);
     // update timeline
     timeline->updateTimeline();
 }
@@ -151,8 +145,12 @@ void MainWindowContent::prevFrame(){
     layout->removeWidget(scribbleArea);
     scribbleArea->setVisible(false);
 
+    // get the tabletActive value of the current frame before changing to next
+    bool tabletActiveValue = scribbleArea->getTabletActive();
+
     // add previous frame to layout
     scribbleArea = frames[frameController->getCurrFrame()];
+    scribbleArea->setTabletActive(tabletActiveValue);
     layout->addWidget(scribbleArea, BorderLayout::Center);
     scribbleArea->setVisible(true);
 
@@ -183,9 +181,12 @@ void MainWindowContent::animate(){
     }
 }
 
-
 ScribbleArea* MainWindowContent::getCurrFrame(){
     return frames[frameController->getCurrFrame()];
+}
+
+FrameController* MainWindowContent::getFrameController(){
+    return frameController;
 }
 
 QVector<ScribbleArea*> MainWindowContent::getAllFrames(){

@@ -55,10 +55,9 @@
 
 int main(int argc, char *argv[])
 {
-    //QApplication app(argc, argv);
     TabletApplication app(argc, argv);
     MainWindow window;
-    app.addWindow(&window);
+    app.addMainWindow(&window);
     window.show();
     return app.exec();
 }

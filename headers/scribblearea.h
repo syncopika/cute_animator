@@ -77,11 +77,13 @@ public:
 
     QImage getImage();
     void setImage(QImage* image);
+    void setTabletActive(bool active);
+
+    bool getTabletActive();
 
 public slots:
     void clearImage();
     void print();
-    void setTabletActive(bool active);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -98,7 +100,9 @@ private:
     bool modified;
     bool scribbling;
     bool tabletActive;
+
     int myPenWidth;
+
     QColor myPenColor;
     QImage image;
     QPoint lastPoint;

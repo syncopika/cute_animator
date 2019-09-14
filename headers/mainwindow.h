@@ -65,6 +65,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
     ScribbleArea* getScribbleArea();
+    FrameController* getFrameController();
+
+public slots:
+    void setTabletActive(bool active);
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -86,7 +90,7 @@ private:
 
     MainWindowContent* content;
     ScribbleArea* scribbleArea;
-    FrameController* frameController;
+    //FrameController* frameController;
 
     QMenu *saveAsMenu;
     QMenu *saveAllFramesMenu;

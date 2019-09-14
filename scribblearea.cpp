@@ -66,6 +66,7 @@ ScribbleArea::ScribbleArea(QWidget *parent)
     setAttribute(Qt::WA_StaticContents);
     modified = false;
     scribbling = false;
+    tabletActive = false;
     myPenWidth = 1;
     myPenColor = Qt::black; // set default pen color to black
 }
@@ -151,7 +152,6 @@ void ScribbleArea::tabletEvent(QTabletEvent *event)
     switch(event->type()){
         case QEvent::TabletPress:
         {
-            //qDebug() << "tablet event scribblearea";
             lastPoint = event->pos();
             myPenWidth = int(event->pressure() * 10);
             scribbling = true;
@@ -287,6 +287,9 @@ void ScribbleArea::setImage(QImage* image){
 }
 
 void ScribbleArea::setTabletActive(bool active){
-    qDebug() << "received signal from app to toggle tablet active!";
     tabletActive = active;
+}
+
+bool ScribbleArea::getTabletActive(){
+    return tabletActive;
 }

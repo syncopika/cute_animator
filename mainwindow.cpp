@@ -56,7 +56,7 @@
 MainWindow::MainWindow()
 {
     setWindowTitle(tr("Cute Animator"));
-    resize(1000, 850); // height, width
+    resize(900, 850); // height, width
 
     content = new MainWindowContent(this);
     scribbleArea = content->getCurrFrame();
@@ -64,10 +64,17 @@ MainWindow::MainWindow()
 
     createActions();
     createMenus();
+
+    // https://forum.qt.io/topic/75892/how-to-properly-subclass-qapplication-and-access-new-methods-elsewhere/13
+    // https://forum.qt.io/topic/70072/sequence-of-slot-execution/2
 }
 
 ScribbleArea* MainWindow::getScribbleArea(){
     return scribbleArea;
+}
+
+FrameController* MainWindow::getFrameController(){
+    return content->getFrameController();
 }
 
 //! [1]
@@ -226,8 +233,6 @@ void MainWindow::createMenus()
     optionMenu = new QMenu(tr("&Options"), this);
     optionMenu->addAction(penColorAct);
     optionMenu->addAction(penWidthAct);
-    //optionMenu->addSeparator();
-   // optionMenu->addAction(clearScreenAct);
 
     helpMenu = new QMenu(tr("&Help"), this);
     helpMenu->addAction(aboutAct);
@@ -284,7 +289,6 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
 
 void MainWindow::saveFileAll(const QByteArray &fileFormat)
 {
-    //scribbleArea = content->getCurrFrame();
     QString initialPath = QDir::currentPath() + "/untitled";
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
@@ -303,3 +307,11 @@ void MainWindow::saveFileAll(const QByteArray &fileFormat)
         }
     }
 }
+
+// slot - when this receives a setTabletActive signal, it'll tell the current scribbleArea frame
+// to accept (or not accept) tablet events
+void MainWindow::setTabletActive(bool active){
+    qDebug() << "received signal from app to toggle tablet active in MainWindow!";
+    content->getCurrFrame()->setTabletActive(active);
+}
+

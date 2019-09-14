@@ -12,7 +12,6 @@ QSizeF FrameThumbnail::sizeHint(Qt::SizeHint which, const QSizeF& constraint) co
     return boundingRect().size();
 }
 
-
 void FrameThumbnail::setGeometry(const QRectF& rect){
     setPos(rect.topLeft());
 }

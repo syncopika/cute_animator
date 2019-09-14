@@ -67,10 +67,6 @@ void Timeline::addFrameToTimeline(QImage image){
     // need to make sure image is scaled
     QPixmap pixmap = QPixmap::fromImage(image);
 
-    //qDebug() << "image width: " << pixmap.width();
-    //qDebug() << "image height: " << pixmap.height();
-
-    //QPixmap("C:\\Users\\Nicholas Hung\\Desktop\\build-cute_animator-Desktop_Qt_5_13_0_MinGW_32_bit-Debug\\debug\\bocchi2.png"); //QPixmap::fromImage(image);
     // use painer.drawPixmap to add the actual image to another pixmap while also having borders that don't interfere with the original image
     QPixmap scaledPixmap = pixmap.scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
     QPainter painter(&scaledPixmap);
@@ -114,8 +110,7 @@ void Timeline::updateTimeline(){
 void Timeline::emitAnimationSignal(){
     // get int from textbox, which is the time delay between frames.
     int timeDelay = (editDelay->text()).toInt();
-   // QTextStream out(stdout);
-   //out << editDelay->text() << endl;
+
     if(timeDelay <= 0){
         timeDelay = 500;
     }
