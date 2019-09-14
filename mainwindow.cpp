@@ -66,6 +66,10 @@ MainWindow::MainWindow()
     createMenus();
 }
 
+ScribbleArea* MainWindow::getScribbleArea(){
+    return scribbleArea;
+}
+
 //! [1]
 void MainWindow::closeEvent(QCloseEvent *event)
 //! [1] //! [2]

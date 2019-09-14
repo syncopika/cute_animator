@@ -11,7 +11,8 @@ HEADERS       = \
     headers/mainwindow.h \
     headers/borderlayout.h \
     headers/timeline.h \
-    headers/framethumbnail.h
+    headers/framethumbnail.h \
+    headers/tabletapplication.h
 SOURCES       = main.cpp \
                 scribblearea.cpp \
     framecontroller.cpp \
@@ -20,6 +21,7 @@ SOURCES       = main.cpp \
     borderlayout.cpp \
     timeline.cpp \
     framethumbnail.cpp \
+    tabletapplication.cpp
 
 # install
 #target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/scribble

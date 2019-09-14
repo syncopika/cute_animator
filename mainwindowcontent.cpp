@@ -1,6 +1,7 @@
 #include <QtWidgets>
 #include <iostream>
 #include "headers/mainwindowcontent.h"
+#include "headers/tabletapplication.h"
 
 // https://doc.qt.io/qt-5/mainwindow.html
 // https://doc.qt.io/qt-5/qtwidgets-tutorials-widgets-nestedlayouts-example.html

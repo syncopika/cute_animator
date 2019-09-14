@@ -68,7 +68,6 @@ ScribbleArea::ScribbleArea(QWidget *parent)
     scribbling = false;
     myPenWidth = 1;
     myPenColor = Qt::black; // set default pen color to black
-
 }
 //! [0]
 
@@ -149,37 +148,29 @@ void ScribbleArea::clearImage()
 
 void ScribbleArea::tabletEvent(QTabletEvent *event)
 {
-    /* relevant events:
-     * QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
-     */
-    if (event->type() != QEvent::TabletLeaveProximity) {
-        if (event->device() == QTabletEvent::Stylus){
-            switch(event->type()){
-                case QEvent::TabletPress:
-                {
-                    //std::cout << "tablet PRESS triggered!" << std::endl;
-                    lastPoint = event->pos();
-                    myPenWidth = int(event->pressure() * 10);
-                    scribbling = true;
-                }
-                break;
-                case QEvent::TabletMove:
-                {
-                    myPenWidth = int(event->pressure() * 10);
-                    drawLineTo(event->pos());
-                }
-                break;
-                case QEvent::TabletRelease:
-                {
-                    drawLineTo(event->pos());
-                    scribbling = false;
-                    //std::cout << "tablet RELEASE triggered!" << std::endl;
-                }
-                break;
-                default:
-                    break;
-            }
+    switch(event->type()){
+        case QEvent::TabletPress:
+        {
+            //qDebug() << "tablet event scribblearea";
+            lastPoint = event->pos();
+            myPenWidth = int(event->pressure() * 10);
+            scribbling = true;
         }
+        break;
+        case QEvent::TabletMove:
+        {
+            myPenWidth = int(event->pressure() * 10);
+            drawLineTo(event->pos());
+        }
+        break;
+        case QEvent::TabletRelease:
+        {
+            drawLineTo(event->pos());
+            scribbling = false;
+        }
+        break;
+        default:
+            return;
     }
     event->accept();
 }
@@ -188,7 +179,8 @@ void ScribbleArea::tabletEvent(QTabletEvent *event)
 void ScribbleArea::mousePressEvent(QMouseEvent *event)
 //! [11] //! [12]
 {
-    if (event->button() == Qt::LeftButton) {
+    //qDebug() << "mouse press event scribblearea";
+    if (!tabletActive && event->button() == Qt::LeftButton) {
         lastPoint = event->pos();
         scribbling = true;
     }
@@ -196,13 +188,13 @@ void ScribbleArea::mousePressEvent(QMouseEvent *event)
 
 void ScribbleArea::mouseMoveEvent(QMouseEvent *event)
 {
-    if ((event->buttons() & Qt::LeftButton) && scribbling)
+    if (!tabletActive && (event->buttons() & Qt::LeftButton) && scribbling)
         drawLineTo(event->pos());
 }
 
 void ScribbleArea::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton && scribbling) {
+    if (!tabletActive && event->button() == Qt::LeftButton && scribbling) {
         drawLineTo(event->pos());
         scribbling = false;
     }
@@ -292,4 +284,9 @@ QImage ScribbleArea::getImage(){
 
 void ScribbleArea::setImage(QImage* image){
     this->image = *image;
+}
+
+void ScribbleArea::setTabletActive(bool active){
+    qDebug() << "received signal from app to toggle tablet active!";
+    tabletActive = active;
 }

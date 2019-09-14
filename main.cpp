@@ -51,11 +51,14 @@
 #include <QApplication>
 
 #include "headers/mainwindow.h"
+#include "headers/tabletapplication.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    //QApplication app(argc, argv);
+    TabletApplication app(argc, argv);
     MainWindow window;
+    app.addWindow(&window);
     window.show();
     return app.exec();
 }

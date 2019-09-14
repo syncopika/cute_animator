@@ -138,7 +138,6 @@ void FrameController::tabletEvent(QTabletEvent *event)
     /* relevant events:
      * QEvent::TabletPress, QEvent::TabletMove, QEvent::TabletRelease
      */
-
     if (event->type() != QEvent::TabletLeaveProximity) {
         if (event->device() == QTabletEvent::Stylus){
             //qDebug() << "the position of the tablet event is: " << event->pos();
@@ -146,7 +145,6 @@ void FrameController::tabletEvent(QTabletEvent *event)
             switch(event->type()){
                 case QEvent::TabletPress:
                 {
-                    //qDebug() << "tablet event triggered!";
                    // qDebug() << "the position of the tablet event is: " << event->pos();
                    // qDebug() << "the position of the add button is: " << addBtn->pos();
                     int eventPosY = event->y();
@@ -158,14 +156,19 @@ void FrameController::tabletEvent(QTabletEvent *event)
 
                     if(eventPosY <= addBtnY + 15 && eventPosY >= addBtnY){
                         addBtn->animateClick();
+                        qDebug() << "clicked Add button!";
                     }else if(eventPosY <= removeBtnY + 15 && eventPosY >= removeBtnY){
                         removeBtn->animateClick();
+                        qDebug() << "clicked Remove button!";
                     }else if(eventPosY <= nextBtnY + 15 && eventPosY >= nextBtnY){
                         nextBtn->animateClick();
+                        qDebug() << "clicked Next button!";
                     }else if(eventPosY <= prevBtnY + 15 && eventPosY >= prevBtnY){
                         prevBtn->animateClick();
+                        qDebug() << "clicked Prev button!";
                     }else if(eventPosY <= clearBtnY + 15 && eventPosY >= clearBtnY){
                         clearBtn->animateClick();
+                        qDebug() << "clicked Clear button!";
                     }
 
                 }
@@ -175,5 +178,6 @@ void FrameController::tabletEvent(QTabletEvent *event)
             }
         }
     }
+    event->accept();
 }
 

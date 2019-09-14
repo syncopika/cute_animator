@@ -64,6 +64,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
+    ScribbleArea* getScribbleArea();
 
 protected:
     void closeEvent(QCloseEvent *event) override;

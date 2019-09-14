@@ -7,6 +7,9 @@
 3. not sure a bug, but how to cleanly remove focus on textbox after clicking on it without having to draw on the canvas again to shift focus?
    I want to easily regain control over the arrow keys to traverse frames after changing frame rate, if that makes sense.
 
+See this for below - https://stackoverflow.com/questions/31172532/mousepressevent-of-qwidget-gets-called-even-though-qtabletevent-was-accepted
+and this for example: https://doc.qt.io/qt-5/qtwidgets-widgets-tablet-example.html
 4. Double-clicking occuring when clicking on buttons with tablet pen
-
 5. Drawing with tablet pen seems to join certain segments of a continuous stroke. maybe there's something going on with recording the last point drawn?
+    - The drawing code is fine. it's a problem with tablet and mouse events being fired together.
+    - interestingly, this behavior was not apparent on my laptop (but using my laptop also introduced more lag time I think).
