@@ -11,7 +11,7 @@ bool TabletApplication::event(QEvent* event)
         }
         return true;
     }
-    // accept events normally (i.e. mouse)
+    // accept events normally (i.e. mouse) if no tablet event
     return QApplication::event(event);
 }
 

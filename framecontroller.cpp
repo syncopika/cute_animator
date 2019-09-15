@@ -23,11 +23,17 @@ FrameController::FrameController(QWidget *parent)
     totalFramesLabel->setMaximumHeight(15);
     currFrameLabel ->setMaximumHeight(15);
 
-    nextBtn = new QPushButton();
-    prevBtn = new QPushButton();
-    addBtn = new QPushButton();
-    removeBtn = new QPushButton();
-    clearBtn = new QPushButton();
+    nextBtn = new QPushButton(this);
+    prevBtn = new QPushButton(this);
+    addBtn = new QPushButton(this);
+    removeBtn = new QPushButton(this);
+    clearBtn = new QPushButton(this);
+
+    addBtn->installEventFilter(this);
+    nextBtn->installEventFilter(this);
+    prevBtn->installEventFilter(this);
+    removeBtn->installEventFilter(this);
+    clearBtn->installEventFilter(this);
 
     prevBtn->setText("prev");
     nextBtn->setText("next");
@@ -97,6 +103,7 @@ void FrameController::nextButtonClicked(){
 }
 
 void FrameController::addButtonClicked(){
+    qDebug() << "clicked Add button!";
     numFrames++;
     totalFramesLabel->setText("total frames: " + QString::number(numFrames));
     emit addFrame();
@@ -127,6 +134,10 @@ void FrameController::setCurrFrame(int curr){
 // https://stackoverflow.com/questions/36050747/qt-c-how-to-get-event-target-object
 void FrameController::tabletEvent(QTabletEvent *event)
 {
+    if(!tabletActive){
+        event->ignore();
+        return;
+    }
     switch(event->type()){
         case QEvent::TabletPress:
         {
@@ -138,8 +149,8 @@ void FrameController::tabletEvent(QTabletEvent *event)
             int clearBtnY = clearBtn->y();
 
             if(eventPosY <= addBtnY + 15 && eventPosY >= addBtnY){
+                qDebug() << "clicked add button with tablet pen!";
                 addBtn->animateClick();
-                qDebug() << "clicked Add button!";
             }else if(eventPosY <= removeBtnY + 15 && eventPosY >= removeBtnY){
                 removeBtn->animateClick();
                 qDebug() << "clicked Remove button!";
@@ -165,4 +176,13 @@ void FrameController::tabletEvent(QTabletEvent *event)
 void FrameController::setTabletActive(bool active){
     qDebug() << "received signal from app to toggle tablet active in framecontroller!";
     tabletActive = active;
+}
+
+bool FrameController::eventFilter(QObject* obj, QEvent* event){
+    if(tabletActive && event->type() == QEvent::MouseButtonPress){
+        qDebug() << "button was pressed and tabletactive";
+        // don't let mousebuttonpress event come through when using tablet (only tabletevent should be handled)
+        return true;
+    }
+    return QWidget::eventFilter(obj, event);
 }

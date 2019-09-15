@@ -18,6 +18,9 @@ public:
     void setNumFrames(int num);
     void setCurrFrame(int curr);
 
+    // https://stackoverflow.com/questions/9261175/how-to-emit-a-signal-from-a-qpushbutton-when-the-mouse-hovers-over-it
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
 private:
     bool tabletActive;
 
