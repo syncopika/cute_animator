@@ -65,6 +65,9 @@ FrameController::FrameController(QWidget *parent)
     QShortcut *minusKey = new QShortcut(QKeySequence(Qt::Key_Minus), removeBtn);
     connect(minusKey, &QShortcut::activated, [this](){removeBtn->animateClick();});
 
+    QShortcut *spaceKey = new QShortcut(QKeySequence(Qt::Key_Space), addBtn);
+    connect(spaceKey, &QShortcut::activated, [this](){addBtn->animateClick();});
+
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     layout->addWidget(totalFramesLabel);
     layout->addWidget(currFrameLabel);
@@ -138,6 +141,7 @@ void FrameController::tabletEvent(QTabletEvent *event)
         event->ignore();
         return;
     }
+
     switch(event->type()){
         case QEvent::TabletPress:
         {

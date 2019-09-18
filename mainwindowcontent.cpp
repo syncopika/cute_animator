@@ -76,7 +76,7 @@ void MainWindowContent::removeFrame(){
         scribbleArea = frames[currFrame+1];
         // correct numFrames
         frameController->setNumFrames(numFrames-1);
-        frameController->setCurrFrame(currFrame+1);
+        frameController->setCurrFrame(currFrame);
     }else{
         // if deleting any other frame, move curr frame to be previous frame
         scribbleArea = frames[currFrame-1];
